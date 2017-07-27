@@ -14,10 +14,16 @@ public class InvoiceApp {
 		List<Product> products = new ArrayList<Product>(); // holds all users products
 		double price; // product price
 		String descr; // product description
+		double subTotal = 0; // total before tax
+		double grandTotal = 0; // total with tax
+		double taxTotal = 0; // total of tax only
 		
-		System.out.println("Enter the tax rate: ");
-		taxRate = scanner.nextDouble(); // store tax rate
+		
+		
+		System.out.println("Enter the tax rate (ie 3 for 3%): ");
+		taxRate = scanner.nextDouble(); // store tax rate, assume it is an integer, like 3%
 		scanner.nextLine(); // consume the dangling \n
+		taxRate /= 100; // convert to decimal
 		
 		// continue asking user for more products until they say stop
 		// assume they will add at least one product
@@ -37,14 +43,32 @@ public class InvoiceApp {
 			// add it to our product list
 			products.add(currentProduct);
 		
-		
-		
-		
-		
+			// ask if user wants to add more products
 			System.out.println("Would you like to add another product? Y/N");
 			addMoreProducts = scanner.nextLine().equalsIgnoreCase("y") ? true : false;
 		} while(addMoreProducts);
 		
+		
+		
+		
+		// get the sub total and display the product info
+		for(Product p : products) {
+			subTotal += p.getPrice();
+			System.out.println("Product price: " + p.getPrice());
+			// TODO: ask if description is desired for each product, make price look nice
+//			System.out.println("Product description: " + p.getDescription());
+		}
+		
+		// calculate the tax 
+		taxTotal = subTotal * taxRate;
+		
+		// calculate grand total
+		grandTotal = subTotal + taxTotal;
+		
+		// display tax and grand total
+		// TODO: make it look nice
+		System.out.println("Tax total: " + taxTotal);
+		System.out.println("Grand total: " + grandTotal);
 		
 		
 		
