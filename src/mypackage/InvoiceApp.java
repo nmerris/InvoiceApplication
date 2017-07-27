@@ -1,5 +1,7 @@
 package mypackage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InvoiceApp {
@@ -9,16 +11,31 @@ public class InvoiceApp {
 		Scanner scanner = new Scanner(System.in);
 		double taxRate; // one tax rate for all products
 		boolean addMoreProducts = true; // set to false if user chooses to stop entering products
-		
+		List<Product> products = new ArrayList<Product>(); // holds all users products
+		double price; // product price
+		String descr; // product description
 		
 		System.out.println("Enter the tax rate: ");
 		taxRate = scanner.nextDouble(); // store tax rate
 		scanner.nextLine(); // consume the dangling \n
 		
 		// continue asking user for more products until they say stop
+		// assume they will add at least one product
 		do {
-			// TODO: get 'er done
+			// get and temporarily store the price
+			System.out.println("Enter product price: ");
+			price = scanner.nextDouble();
+			scanner.nextLine();
+			
+			// get and temporarily store the description
+			System.out.println("Entere product description: ");
+			descr = scanner.nextLine();
+			
+			// create a new product object
+			Product currentProduct = new Product(price, descr);
 		
+			// add it to our product list
+			products.add(currentProduct);
 		
 		
 		
