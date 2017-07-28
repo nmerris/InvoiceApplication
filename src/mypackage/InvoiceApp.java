@@ -9,8 +9,8 @@ public class InvoiceApp {
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
-		double taxRate; // one tax rate for all products, in decimal format (ie 0.03 for 3%)
-		boolean addMoreProducts = true; // set to false if user chooses to stop entering products
+		double taxRate; // one tax rate for all products, entered as a percentage (ie 3 for 3%)
+		boolean addMoreProducts = true; // false when user chooses to stop entering products
 		List<Product> products = new ArrayList<Product>(); // holds all users products
 		double price; // product price
 		String descr; // product description
@@ -21,7 +21,7 @@ public class InvoiceApp {
 		
 		
 		System.out.println("Enter the tax rate (ie 3 for 3%): ");
-		taxRate = scanner.nextDouble(); // store tax rate, assume it is an integer, like 3%
+		taxRate = scanner.nextDouble(); // store tax rate
 		scanner.nextLine(); // consume the dangling \n
 		taxRate /= 100; // convert to decimal
 		
@@ -51,12 +51,11 @@ public class InvoiceApp {
 		System.out.println("Following is a summary of your order:\n");
 		
 		// display order summary table headers
-//		String tableFormatString = "%-32s %-16s\n";
 		System.out.printf("%-32s %-16s\n", "DESCRIPTION", "PRICE");
 		System.out.println("----------------------------------------------");
 		
 		// sum up the sub total and display the product info
-		// use tableFormatString here so that it lines up with headings above
+		// NOTE: make sure the format string spacing is same as table headers above
 		for(Product p : products) {
 			subTotal += p.getPrice();
 			System.out.printf("%-32s $%-16.2f\n", p.getDescription(), p.getPrice());
@@ -69,6 +68,7 @@ public class InvoiceApp {
 		grandTotal = subTotal + taxTotal;
 		
 		// display tax and grand total
+		// format strings are amazing!
 		System.out.printf("\nTax rate: %.0f%%\n", taxRate * 100);
 		System.out.printf("Tax charged: $%.2f\n", taxTotal);
 		System.out.printf("Total amount due: $%.2f", grandTotal);
