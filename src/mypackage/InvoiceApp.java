@@ -38,10 +38,10 @@ public class InvoiceApp {
 			descr = scanner.nextLine();
 			
 			// create a new product object
-			Product currentProduct = new Product(price, descr);
+//			Product currentProduct = new Product(price, descr);
 		
-			// add it to our product list
-			products.add(currentProduct);
+			// create a new Product object and add it to our product list
+			products.add(new Product(price, descr));
 		
 			// ask if user wants to add more products
 			System.out.println("Would you like to add another product? Y/N");
@@ -51,12 +51,12 @@ public class InvoiceApp {
 		
 		
 		
-		// get the sub total and display the product info
+		// sum up the sub total and display the product info
 		for(Product p : products) {
 			subTotal += p.getPrice();
-			System.out.println("Product price: " + p.getPrice());
-			// TODO: ask if description is desired for each product, make price look nice
-//			System.out.println("Product description: " + p.getDescription());
+			
+			System.out.print(p.getDescription() + "  ");
+			System.out.println("$" + p.getPrice());
 		}
 		
 		// calculate the tax 
@@ -67,8 +67,8 @@ public class InvoiceApp {
 		
 		// display tax and grand total
 		// TODO: make it look nice
-		System.out.println("Tax total: " + taxTotal);
-		System.out.println("Grand total: " + grandTotal);
+		System.out.println("Tax charged: $" + taxTotal);
+		System.out.println("Total amount due: $" + grandTotal);
 		
 		
 		
