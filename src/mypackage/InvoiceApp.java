@@ -12,12 +12,14 @@ public class InvoiceApp {
 		double taxRate; // one tax rate for all products, entered as a percentage (ie 3 for 3%)
 		boolean addMoreProducts = true; // false when user chooses to stop entering products
 		List<Product> products = new ArrayList<Product>(); // holds all users products
-		double price; // product price
+		double price = 0; // product price
 		String descr; // product description
 		double subTotal = 0; // total before tax
 		double grandTotal = 0; // total with tax
 		double taxTotal = 0; // total of tax only
+		final double maxPrice = 1000000; // max price allowed to be entered by user
 		
+		boolean inputError = false; // set to true if user enters invalid input anywhere
 		
 		
 		System.out.println("Enter the tax rate (ie 3 for 3%): ");
@@ -28,10 +30,22 @@ public class InvoiceApp {
 		// continue asking user for more products until they say stop
 		// assume they will add at least one product
 		do {
-			// get and temporarily store the price
-			System.out.println("Enter product price: ");
-			price = scanner.nextDouble();
-			scanner.nextLine();
+
+			
+			do {
+				inputError = false;
+				try { // get price and make sure it's a number
+					System.out.println("Enter product price: ");
+					price = scanner.nextDouble();
+					if(price > maxPrice) {
+						throw new Exception();
+					}
+				} catch(Exception e) { // user did not enter a number
+					scanner.nextLine(); // consume the dangling \n or it loops forever
+					inputError = true;
+					System.out.printf("Please enter a number less than %.2f\n", maxPrice);
+				};
+			} while(inputError);
 			
 			// get and temporarily store the description
 			System.out.println("Enter product description: ");
