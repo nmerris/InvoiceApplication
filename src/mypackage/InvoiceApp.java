@@ -18,38 +18,25 @@ public class InvoiceApp {
 		double grandTotal = 0; // total with tax
 		double taxTotal = 0; // total of tax only
 		final double maxPrice = 1000000; // max price allowed to be entered by user
+		final double maxTaxRate = 50; // hopefully tax rate will never be over 50%!
 		
-		boolean inputError = false; // set to true if user enters invalid input anywhere
 		
 		
-		System.out.println("Enter the tax rate (ie 3 for 3%): ");
-		taxRate = scanner.nextDouble(); // store tax rate
-		scanner.nextLine(); // consume the dangling \n
+//		System.out.println("Enter the tax rate (ie 3 for 3%): ");
+//		taxRate = scanner.nextDouble(); // store tax rate
+//		scanner.nextLine(); // consume the dangling \n
+		
+		taxRate = getTaxRate(scanner, maxTaxRate);
 		taxRate /= 100; // convert to decimal
 		
 		// continue asking user for more products until they say stop
 		// assume they will add at least one product
 		do {
-
+			// get the price
 			price = getPrice(scanner, maxPrice);
-//			do {
-//				try { // get price and make sure it's a number
-//					inputError = false;
-//					System.out.println("Enter product price: ");
-//					price = scanner.nextDouble();
-//					if(price > maxPrice) {
-//						throw new Exception();
-//					}
-//				} catch(Exception e) { // user did not enter a number
-//					scanner.nextLine(); // consume the dangling \n or it loops forever
-//					inputError = true;
-//					System.out.printf("Please enter a number less than %.2f\n", maxPrice);
-//				};
-//			} while(inputError);
-			
-			
-			
-			// get and temporarily store the description
+
+			// get the description
+			// no validation here, but could enforce character limit
 			System.out.println("Enter product description: ");
 			descr = scanner.nextLine();
 		
@@ -58,6 +45,8 @@ public class InvoiceApp {
 		
 			// ask if user wants to add more products
 			System.out.println("Would you like to add another product? Y/N");
+			
+			// mmmm.. ternery goodness
 			addMoreProducts = scanner.nextLine().equalsIgnoreCase("y") ? true : false;
 		} while(addMoreProducts);
 		
@@ -96,7 +85,7 @@ public class InvoiceApp {
 	// gets price from user and validates input
 	// checks for not a number and number too large
 	private static double getPrice(Scanner scanner, double maxPrice) {
-		boolean inputError = false;
+		boolean inputError = false; // true if user enters invalid input
 		double price = 0;
 		
 		do {
@@ -117,6 +106,31 @@ public class InvoiceApp {
 		} while(inputError);
 		
 		return price;
+	}
+	
+	
+	private static double getTaxRate(Scanner scanner, double maxTaxRate) {
+		boolean inputError = false; // true if user enters invalid input
+		double taxRate = 0;
+		
+		do {
+			try { // get tax rate and make sure it's a number not greater than maxTaxRate
+				inputError = false;
+				System.out.println("Enter the tax rate (ie 3 for 3%): ");
+				taxRate = scanner.nextDouble();
+				if(taxRate > maxTaxRate) { // user entered number that was too large
+					throw new Exception();
+				}
+				scanner.nextLine(); // Scanner is kind of annoying
+				
+			} catch(Exception e) { // user did not enter a number
+				scanner.nextLine(); // consume the dangling \n or it loops forever
+				inputError = true;
+				System.out.printf("Please enter a rate less than %.0f\n", maxTaxRate);
+			};
+		} while(inputError);
+		
+		return taxRate;
 	}
 	
 
