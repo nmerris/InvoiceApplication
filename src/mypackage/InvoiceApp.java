@@ -9,7 +9,7 @@ public class InvoiceApp {
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
-		double taxRate; // one tax rate for all products
+		double taxRate; // one tax rate for all products, in decimal format (ie 0.03 for 3%)
 		boolean addMoreProducts = true; // set to false if user chooses to stop entering products
 		List<Product> products = new ArrayList<Product>(); // holds all users products
 		double price; // product price
@@ -34,11 +34,8 @@ public class InvoiceApp {
 			scanner.nextLine();
 			
 			// get and temporarily store the description
-			System.out.println("Entere product description: ");
+			System.out.println("Enter product description: ");
 			descr = scanner.nextLine();
-			
-			// create a new product object
-//			Product currentProduct = new Product(price, descr);
 		
 			// create a new Product object and add it to our product list
 			products.add(new Product(price, descr));
@@ -49,14 +46,20 @@ public class InvoiceApp {
 		} while(addMoreProducts);
 		
 		
+		// display a thank you and summary message
+		System.out.println("Thank you for ordering products with us!");
+		System.out.println("Following is a summary of your order:\n");
 		
+		// display order summary table headers
+//		String tableFormatString = "%-32s %-16s\n";
+		System.out.printf("%-32s %-16s\n", "DESCRIPTION", "PRICE");
+		System.out.println("----------------------------------------------");
 		
 		// sum up the sub total and display the product info
+		// use tableFormatString here so that it lines up with headings above
 		for(Product p : products) {
 			subTotal += p.getPrice();
-			
-			System.out.print(p.getDescription() + "  ");
-			System.out.println("$" + p.getPrice());
+			System.out.printf("%-32s $%-16.2f\n", p.getDescription(), p.getPrice());
 		}
 		
 		// calculate the tax 
@@ -66,9 +69,9 @@ public class InvoiceApp {
 		grandTotal = subTotal + taxTotal;
 		
 		// display tax and grand total
-		// TODO: make it look nice
-		System.out.println("Tax charged: $" + taxTotal);
-		System.out.println("Total amount due: $" + grandTotal);
+		System.out.printf("\nTax rate: %.0f%%\n", taxRate * 100);
+		System.out.printf("Tax charged: $%.2f\n", taxTotal);
+		System.out.printf("Total amount due: $%.2f", grandTotal);
 		
 		
 		
