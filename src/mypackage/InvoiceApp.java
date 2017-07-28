@@ -31,21 +31,23 @@ public class InvoiceApp {
 		// assume they will add at least one product
 		do {
 
+			price = getPrice(scanner, maxPrice);
+//			do {
+//				try { // get price and make sure it's a number
+//					inputError = false;
+//					System.out.println("Enter product price: ");
+//					price = scanner.nextDouble();
+//					if(price > maxPrice) {
+//						throw new Exception();
+//					}
+//				} catch(Exception e) { // user did not enter a number
+//					scanner.nextLine(); // consume the dangling \n or it loops forever
+//					inputError = true;
+//					System.out.printf("Please enter a number less than %.2f\n", maxPrice);
+//				};
+//			} while(inputError);
 			
-			do {
-				inputError = false;
-				try { // get price and make sure it's a number
-					System.out.println("Enter product price: ");
-					price = scanner.nextDouble();
-					if(price > maxPrice) {
-						throw new Exception();
-					}
-				} catch(Exception e) { // user did not enter a number
-					scanner.nextLine(); // consume the dangling \n or it loops forever
-					inputError = true;
-					System.out.printf("Please enter a number less than %.2f\n", maxPrice);
-				};
-			} while(inputError);
+			
 			
 			// get and temporarily store the description
 			System.out.println("Enter product description: ");
@@ -86,10 +88,36 @@ public class InvoiceApp {
 		System.out.printf("\nTax rate: %.0f%%\n", taxRate * 100);
 		System.out.printf("Tax charged: $%.2f\n", taxTotal);
 		System.out.printf("Total amount due: $%.2f", grandTotal);
+				
 		
-		
-		
-
 	}
+	
+	
+	// gets price from user and validates input
+	// checks for not a number and number too large
+	private static double getPrice(Scanner scanner, double maxPrice) {
+		boolean inputError = false;
+		double price = 0;
+		
+		do {
+			try { // get price and make sure it's a number not greater than maxPrice
+				inputError = false;
+				System.out.println("Enter product price: ");
+				price = scanner.nextDouble();
+				if(price > maxPrice) { // user entered number that was too large
+					throw new Exception();
+				}
+				scanner.nextLine(); // Scanner is kind of annoying
+				
+			} catch(Exception e) { // user did not enter a number
+				scanner.nextLine(); // consume the dangling \n or it loops forever
+				inputError = true;
+				System.out.printf("Please enter a number less than %.2f\n", maxPrice);
+			};
+		} while(inputError);
+		
+		return price;
+	}
+	
 
 }
