@@ -1,7 +1,7 @@
 	
-	 This program asks users to enter a tax rate. It then continues to ask
-	  the user to enter products until they choose to stop.  Each product
-	  consists of a price and description. A final sales summary is provided.
+	This program asks users to enter a tax rate. It then continues to ask
+	the user to enter products until they choose to stop.  Each product 
+	consists of a price and description. A final sales summary is provided.
 	 
 	
 	SAMPLE OUTPUT
@@ -65,4 +65,4 @@
 	
 	Tax rate: 5%
 	Tax charged: $5611.73
-Total amount due: $117846.29
+	Total amount due: $117846.29
