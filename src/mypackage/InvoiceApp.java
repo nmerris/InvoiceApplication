@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This program asks users to enter a tax rate. It then continues to ask
+ * the user to enter products until they choose to stop.  Each product
+ * consists of a price and description. A final sales summary is provided.
+ * 
+ * @author Nathan Merris
+ *
+ */
 public class InvoiceApp {
 
 	public static void main(String[] args) {
@@ -17,8 +25,10 @@ public class InvoiceApp {
 		double subTotal = 0; // total before tax
 		double grandTotal = 0; // total with tax
 		double taxTotal = 0; // total of tax only
+		
 		final double maxPrice = 1000000; // max price allowed to be entered by user
 		final double maxTaxRate = 50; // hopefully tax rate will never be over 50%!
+		final int maxDescLength = 30; // 30 characters
 		
 	
 		// get the tax rate
@@ -32,10 +42,8 @@ public class InvoiceApp {
 			price = getPrice(scanner, maxPrice);
 
 			// get the description
-			// no validation here, but could enforce character limit
-			System.out.println("Enter product description: ");
-			descr = scanner.nextLine();
-		
+			descr = getDescription(scanner, maxDescLength);
+
 			// create a new Product object and add it to our product list
 			products.add(new Product(price, descr));
 		
@@ -76,6 +84,30 @@ public class InvoiceApp {
 				
 		
 	}
+	
+	
+	/**
+	 * @param scanner System input for the whole app
+	 * @param maxDescLength Max num chars allowed for description
+	 * @return Description less than maxDescLength characters
+	 */
+	private static String getDescription(Scanner scanner, int maxDescLength) {
+		boolean inputError = false; // true if user enters invalid input
+		String descr = "";
+		
+		do {
+			inputError = false;
+			System.out.println("Enter product description: ");
+			descr = scanner.nextLine();
+			if(descr.length() > maxDescLength) { // user entered too much description
+				inputError = true;
+				System.out.printf("Please enter a description less than %s characters\n", maxDescLength);
+			}
+		} while(inputError);
+		
+		return descr;
+	}
+	
 	
 	/**
 	 * Gets the price from Scanner.
