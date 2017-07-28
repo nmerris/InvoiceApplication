@@ -20,12 +20,8 @@ public class InvoiceApp {
 		final double maxPrice = 1000000; // max price allowed to be entered by user
 		final double maxTaxRate = 50; // hopefully tax rate will never be over 50%!
 		
-		
-		
-//		System.out.println("Enter the tax rate (ie 3 for 3%): ");
-//		taxRate = scanner.nextDouble(); // store tax rate
-//		scanner.nextLine(); // consume the dangling \n
-		
+	
+		// get the tax rate
 		taxRate = getTaxRate(scanner, maxTaxRate);
 		taxRate /= 100; // convert to decimal
 		
@@ -81,9 +77,14 @@ public class InvoiceApp {
 		
 	}
 	
-	
-	// gets price from user and validates input
-	// checks for not a number and number too large
+	/**
+	 * Gets the price from Scanner.
+	 * Validates: price too high, less than 0, not a number
+	 * 
+	 * @param scanner System input for the whole app
+	 * @param maxPrice Max allowed product price
+	 * @return Validated price
+	 */
 	private static double getPrice(Scanner scanner, double maxPrice) {
 		boolean inputError = false; // true if user enters invalid input
 		double price = 0;
@@ -93,7 +94,7 @@ public class InvoiceApp {
 				inputError = false;
 				System.out.println("Enter product price: ");
 				price = scanner.nextDouble();
-				if(price > maxPrice) { // user entered number that was too large
+				if(price > maxPrice || price < 0) { // user entered number that was too large
 					throw new Exception();
 				}
 				scanner.nextLine(); // Scanner is kind of annoying
@@ -101,7 +102,7 @@ public class InvoiceApp {
 			} catch(Exception e) { // user did not enter a number
 				scanner.nextLine(); // consume the dangling \n or it loops forever
 				inputError = true;
-				System.out.printf("Please enter a number less than %.2f\n", maxPrice);
+				System.out.printf("Please enter a positive number less than %.2f\n", maxPrice);
 			};
 		} while(inputError);
 		
@@ -109,6 +110,14 @@ public class InvoiceApp {
 	}
 	
 	
+	/**
+	 * Gets the tax rate from Scanner.
+	 * Validates: rate too high, less than 0, not a number
+	 * 
+	 * @param scanner System input for the whole app
+	 * @param maxTaxRate Max allowed tax rate in percentage
+	 * @return Validated tax rate
+	 */
 	private static double getTaxRate(Scanner scanner, double maxTaxRate) {
 		boolean inputError = false; // true if user enters invalid input
 		double taxRate = 0;
@@ -118,7 +127,7 @@ public class InvoiceApp {
 				inputError = false;
 				System.out.println("Enter the tax rate (ie 3 for 3%): ");
 				taxRate = scanner.nextDouble();
-				if(taxRate > maxTaxRate) { // user entered number that was too large
+				if(taxRate > maxTaxRate || taxRate < 0) { // user entered number that was too large
 					throw new Exception();
 				}
 				scanner.nextLine(); // Scanner is kind of annoying
@@ -126,7 +135,7 @@ public class InvoiceApp {
 			} catch(Exception e) { // user did not enter a number
 				scanner.nextLine(); // consume the dangling \n or it loops forever
 				inputError = true;
-				System.out.printf("Please enter a rate less than %.0f\n", maxTaxRate);
+				System.out.printf("Please enter a positive number less than %.0f\n", maxTaxRate);
 			};
 		} while(inputError);
 		
