@@ -61,7 +61,7 @@
 	used jalopy                      $1000.00         
 	a nicer used car                 $10000.00        
 	a fancy new car                  $100000.00       
-	brakes for fancy new car         $1234.56         
+	brakes for fancy new car         $1234.56       
 	
 	Tax rate: 5%
 	Tax charged: $5611.73
